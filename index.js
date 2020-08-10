@@ -16,15 +16,13 @@ module.exports = class IndentModel {
             if (i < lenData - 1) {
                 const strLen = string.length;
                 const spaceBe4Next = spaces - strLen % spaces;
-                const spacesToNext = spaceBe4Next < spaced ? spaces + spaceBe4Next : spaceBe4Next;
+                let spacesToNext = spaceBe4Next < spaced ? spaces + spaceBe4Next : spaceBe4Next;
                 let numSpaces = 0;
-                let tries = 10;
-                while (numSpaces !== spacesToNext) {
+                while (spacesToNext !== 0) {
                     const addSpaces = spacesToNext > 8 ? 8 : spacesToNext;
+                    spacesToNext -= addSpaces;
                     endString += preSpaces[addSpaces];
                     numSpaces += addSpaces;
-                    console.log(string, spacesToNext, endString);
-                    if (--tries === 0) break;
                 }
             }
         }
