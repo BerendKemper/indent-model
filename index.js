@@ -6,13 +6,14 @@ module.exports = class IndentModel {
         this.spaced = options.spaced;
     }
     tabify(...data) {
+        let lenData = data.length;
+        let callback = typeof data[lenData - 1] === "function" ? data.pop(lenData--) : tabified => tabified;
         const spaces = this.spaces;
         const spaced = this.spaced;
-        let endString = "";
-        const lenData = data.length;
+        let tabified = "";
         for (let i = 0; i < lenData; i++) {
             const string = String(data[i]);
-            endString += string;
+            tabified += string;
             if (i < lenData - 1) {
                 const strLen = string.length;
                 const spaceBe4Next = spaces - strLen % spaces;
@@ -21,11 +22,11 @@ module.exports = class IndentModel {
                 while (spacesToNext !== 0) {
                     const addSpaces = spacesToNext > 8 ? 8 : spacesToNext;
                     spacesToNext -= addSpaces;
-                    endString += preSpaces[addSpaces];
+                    tabified += preSpaces[addSpaces];
                     numSpaces += addSpaces;
                 }
             }
         }
-        return endString;
+        return callback(tabified);
     }
 };
