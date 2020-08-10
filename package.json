@@ -1,0 +1,21 @@
+{
+    "name": "indent-model",
+    "version": "1.0.0",
+    "description": "JavaScript decide your own indentation model and tabify string",
+    "main": "index.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BerendKemper/indent-model.git"
+    },
+    "keywords": [],
+    "author": {
+        "name": "Berend Kemper",
+        "email": "berend_kemper@hotmail.com"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/BerendKemper/indent-model/issues"
+    },
+    "homepage": "https://github.com/BerendKemper/indent-model#readme"
+}
