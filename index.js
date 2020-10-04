@@ -1,13 +1,16 @@
 "use strict";
-const preSpaces = { 1: " ", 2: "  ", 3: "   ", 4: "    ", 5: "     ", 6: "      ", 7: "       ", 8: "        " };
-module.exports = class IndentModel {
-    constructor(options = { spaces: 4, spaced: 2 }) {
-        this.spaces = options.spaces;
-        this.spaced = options.spaced;
+const preSpaces = { 1: " ", 2: "  ", 3: "   ", 4: "    ", 5: "     ", 6: "      ", 7: "       ", 8: "        ", 9: "         ", 10: "          ", 11: "           ", 12: "            ", 13: "             ", 14: "              ", 15: "               ", 16: "                " };
+class IndentModel {
+    /**@param {Object} options
+     * @param {Number} options.spaces
+     * @param {Number} options.spaced*/
+    constructor({ spaces = 4, spaced = 2 } = {}) {
+        this.spaces = spaces;
+        this.spaced = spaced;
     }
     tabify(...data) {
         let lenData = data.length;
-        let callback = typeof data[lenData - 1] === "function" ? data.pop(lenData--) : tabified => tabified;
+        const callback = typeof data[lenData - 1] === "function" ? data.pop(lenData--) : tabified => tabified;
         const spaces = this.spaces;
         const spaced = this.spaced;
         let tabified = "";
@@ -20,7 +23,7 @@ module.exports = class IndentModel {
                 let spacesToNext = spaceBe4Next < spaced ? spaces + spaceBe4Next : spaceBe4Next;
                 let numSpaces = 0;
                 while (spacesToNext !== 0) {
-                    const addSpaces = spacesToNext > 8 ? 8 : spacesToNext;
+                    const addSpaces = spacesToNext > 16 ? 16 : spacesToNext;
                     spacesToNext -= addSpaces;
                     tabified += preSpaces[addSpaces];
                     numSpaces += addSpaces;
@@ -30,3 +33,4 @@ module.exports = class IndentModel {
         return callback(tabified);
     }
 };
+module.exports = IndentModel;

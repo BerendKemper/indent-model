@@ -1,11 +1,11 @@
 # IndentModel
 
-<pre><code class="language-javascript">npm i indent-model
+<pre><code>npm i indent-model
 
 const IndentModel = require("indent-model");</code></pre>
 
 <h3>Class IndentModel</h3>
-<h4>indentModel.tabify(...data)</h4>
+<h3>indentModel.tabify(...data)</h3>
 <pre><code>const tabs4 = new IndentModel();
 tabs4.tabify("2020-08-06T00:00:00.000+0200", "GET",
     "/v1/some/api/endpoint", "monkey", 1273457, true, 
