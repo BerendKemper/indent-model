@@ -1,21 +1,21 @@
 {
-    "name": "indent-model",
-    "version": "2.0.4",
-    "description": "JavaScript decide your own indentation model and tabify string",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/BerendKemper/indent-model.git"
-    },
-    "keywords": [],
-    "author": {
-        "name": "Berend Kemper",
-        "email": "berend_kemper@hotmail.com",
-        "npmjs": "https://www.npmjs.com/~burndkemper"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/BerendKemper/indent-model/issues"
-    },
-    "homepage": "https://github.com/BerendKemper/indent-model#readme"
+	"name": "indent-model",
+	"version": "1.0.4",
+	"description": "Configure your desired indentation model and put spaces with fixed tabsizes in between strings",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BerendKemper/indent-model.git"
+	},
+	"keywords": [],
+	"author": {
+		"name": "Berend Kemper",
+		"email": "berend_kemper@hotmail.com",
+		"npmjs": "https://www.npmjs.com/~burndkemper"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/BerendKemper/indent-model/issues"
+	},
+	"homepage": "https://github.com/BerendKemper/indent-model#readme"
 }

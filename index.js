@@ -1,36 +1,54 @@
 "use strict";
-const preSpaces = { 1: " ", 2: "  ", 3: "   ", 4: "    ", 5: "     ", 6: "      ", 7: "       ", 8: "        ", 9: "         ", 10: "          ", 11: "           ", 12: "            ", 13: "             ", 14: "              ", 15: "               ", 16: "                " };
-class IndentModel {
-	/**@param {Object} options
-	 * @param {Number} options.spaces
-	 * @param {Number} options.spaced*/
-	constructor({ spaces = 4, spaced = 2 } = {}) {
-		this.spaces = spaces;
-		this.spaced = spaced;
-	};
-	tabify(...data) {
-		let lenData = data.length;
-		const callback = typeof data[lenData - 1] === "function" ? data.pop(lenData--) : tabified => tabified;
-		const spaces = this.spaces;
-		const spaced = this.spaced;
-		let tabified = "";
-		for (let i = 0; i < lenData; i++) {
-			const string = String(data[i]);
-			tabified += string;
-			if (i < lenData - 1) {
-				const strLen = string.length;
-				const spaceBe4Next = spaces - strLen % spaces;
-				let spacesToNext = spaceBe4Next < spaced ? spaces + spaceBe4Next : spaceBe4Next;
-				let numSpaces = 0;
-				while (spacesToNext !== 0) {
-					const addSpaces = spacesToNext > 16 ? 16 : spacesToNext;
-					spacesToNext -= addSpaces;
-					tabified += preSpaces[addSpaces];
-					numSpaces += addSpaces;
-				}
-			}
+// Object.assign getter:
+// cons: very slow initialize time
+// pros: fastest property access time, readable only
+// For logging strings dozen times a second prioritizes property access time
+const preSpaces = {};
+/**Configure your desired indentation model and put spaces with fixed tabsizes in between strings
+ * @param {Object} options
+ * @param {Number} options.tabSize
+ * @param {Number} options.smallestSpace*/
+function IndentModel({ tabSize = 4, smallestSpace = 2 } = {}) {
+	if (this instanceof IndentModel === false)
+		throw TypeError(`Class constructors cannot be invoked without 'new'`);
+	if (smallestSpace > tabSize)
+		throw new Error("smallestSpace cannot be bigger than tabSize");
+	if (smallestSpace < 1)
+		throw new Error("smallestSpace must be bigger than 0");
+	const tooMuchSpace = smallestSpace + tabSize;
+	let preSpace = "";
+	for (let i = 1; i < smallestSpace; i++)
+		preSpace += " ";
+	for (let i = smallestSpace; i < tooMuchSpace; i++) {
+		preSpace += " ";
+		preSpaces[i] = preSpace;
+	}
+	Object.assign(this, {
+		get tabSize() {
+			return tabSize;
+		},
+		get smallestSpace() {
+			return smallestSpace;
 		}
-		return callback(tabified);
-	};
+	});
+};
+IndentModel.prototype = {
+	tabify(...data) {
+		const lastData = data.length - 1;
+		const tabSize = this.tabSize;
+		const smallestSpace = this.smallestSpace;
+		let tabified = "";
+		for (let i = 0; i < lastData; i++) {
+			const dataStr = String(data[i]);
+			tabified += dataStr;
+			const strLen = dataStr.length;
+			let spacesUntilNextTab = tabSize - strLen % tabSize;
+			if (spacesUntilNextTab < smallestSpace)
+				spacesUntilNextTab += tabSize;
+			tabified += preSpaces[spacesUntilNextTab];
+		}
+		tabified += data[lastData];
+		return tabified;
+	}
 };
 module.exports = IndentModel;
