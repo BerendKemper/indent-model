@@ -51,5 +51,11 @@ class IndentModel {
 		tabified += data[lastData];
 		return tabified;
 	};
+	get tabSize() {
+		return this.#tabSize;
+	};
+	get smallestSpace() {
+		return this.#smallestSpace;
+	};
 };
 module.exports = IndentModel;
