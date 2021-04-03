@@ -1,9 +1,11 @@
 # IndentModel
 Configure your desired indentation model and put spaces with fixed tabsizes in between strings
 <br>
-<pre><code>npm i indent-model
+<pre><code>npm i indent-model</code></pre>
 
-const IndentModel = require("indent-model");</code></pre>
+```javascript
+const IndentModel = require("indent-model");
+```
 <br>
 <h3>Class IndentModel</h3>
 <h3>IndentModel.tabify(...data)</h3>
