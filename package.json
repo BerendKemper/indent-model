@@ -1,6 +1,6 @@
 {
     "name": "indent-model",
-    "version": "1.0.5",
+    "version": "2.0.0",
     "description": "Configure your desired indentation model and put spaces with fixed tabsizes in between strings",
     "main": "index.js",
     "repository": {

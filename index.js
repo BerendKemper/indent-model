@@ -1,44 +1,45 @@
 "use strict";
-const preSpaces = {};
 class IndentModel {
+    #maxSpace = "";
     #tabSize;
-    #smallestSpace;
+    #minDistance;
     /**Configure your desired indentation model and put spaces with fixed tabsizes in between strings
-     * @param {{tabSize:number smallestSpace:number}} options*/
+     * ```javascript
+const tabs6 = new IndentModel({ tabSize: 6, minDistance: 4 });
+const tabs30 = new IndentModel({ tabSize: 30, minDistance: 0 });
+console.log(tabs30.tabify(tabs6.tabify(...itemsToLog), "some stuff that is logged"), "test");
+"2020-08-06T00:00:00.000+0200        GET         /v1/path/to/endpoint          some stuff that is logged test
+//----,-----,-----,-----,-----,-----,-----,-----,-----------------------------,
+     * ```
+     * @param {{tabSize:number minDistance:number}} options*/
     constructor(options) {
         this.#tabSize = options.tabSize ?? 4;
-        this.#smallestSpace = options.smallestSpace ?? 2;
+        this.#minDistance = options.minDistance ?? 2;
         if (Number.isInteger(this.#tabSize) === false) throw new Error("tabSize must be an integer");
-        if (Number.isInteger(this.#smallestSpace) === false) throw new Error("smallestSpace must be an integer");
-        if (this.#smallestSpace > this.#tabSize) throw new Error("smallestSpace cannot be bigger than tabSize");
-        if (this.#smallestSpace < 1) throw new Error("smallestSpace must be bigger than 0");
-        const tooMuchSpace = this.#smallestSpace + this.#tabSize;
-        let preSpace = "";
-        for (let i = 1; i < this.#smallestSpace; i++) preSpace += " ";
-        for (let i = this.#smallestSpace; i < tooMuchSpace; i++) preSpaces[i] = preSpace += " ";
-    };
+        else if (Number.isInteger(this.#minDistance) === false) throw new Error("minDistance must be an integer");
+        else if (this.#minDistance > this.#tabSize) throw new Error("minDistance cannot be bigger than tabSize");
+        else if (this.#minDistance < 0) throw new Error("minDistance must be bigger than 0");
+        this.#maxSpace = new Array(this.#minDistance + this.#tabSize - 1).join(" ");
+    }
     /**Turn the data input into a tabified string.
      * @param  {...} data*/
     tabify(...data) {
-        const lastData = data.length - 1;
+        const maxSpace = this.#maxSpace;
+        const lastIx = data.length - 1;
         const tabSize = this.#tabSize;
-        const smallestSpace = this.#smallestSpace;
+        const minDistance = this.#minDistance;
         let tabified = "";
-        for (let i = 0; i < lastData; i++) {
-            tabified += data[i];
-            const strLen = data[i].length;
-            let spacesUntilNextTab = tabSize - strLen % tabSize;
-            if (spacesUntilNextTab < smallestSpace) spacesUntilNextTab += tabSize;
-            tabified += preSpaces[spacesUntilNextTab];
+        for (let i = 0; i < lastIx; i++) {
+            let distance = tabSize - (data[i].length % tabSize);
+            tabified += data[i] + maxSpace.slice(0, distance + (distance < minDistance && tabSize));
         }
-        tabified += data[lastData];
-        return tabified;
-    };
+        return tabified += data[lastIx];
+    }
     get tabSize() {
         return this.#tabSize;
-    };
-    get smallestSpace() {
-        return this.#smallestSpace;
-    };
-};
+    }
+    get minDistance() {
+        return this.#minDistance;
+    }
+}
 module.exports = IndentModel;
